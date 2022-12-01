@@ -91,7 +91,8 @@ fn main() -> Result<(), Box<dyn Error>> {
                     .collect::<Result<Vec<usize>, _>>()
             })
             .collect::<Result<Vec<_>, _>>()?;
-        println!("{}", day1::solve(calories));
+        println!("{}", day1::solve(calories.clone()));
+        println!("{}", day1::more(calories));
     }
 
     Ok(())
