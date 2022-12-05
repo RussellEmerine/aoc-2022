@@ -5,6 +5,7 @@ use std::io::Read;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
 fn main() -> Result<(), Box<dyn Error>> {
     {
@@ -48,6 +49,25 @@ fn main() -> Result<(), Box<dyn Error>> {
         let rucksacks: Vec<_> = s.split_whitespace().collect();
         println!("{}", day3::solve(rucksacks.clone()));
         println!("{}", day3::more(rucksacks));
+    }
+
+    {
+        println!("day4");
+        let mut s = String::new();
+        File::open("input/day4/input.txt")?.read_to_string(&mut s)?;
+        let v: Vec<_> = s
+            .split_whitespace()
+            .map(|a| {
+                a.split(&['-', ','])
+                    .map(|a| a.parse())
+                    .collect::<Result<Vec<usize>, _>>()
+            })
+            .collect::<Result<Vec<_>, _>>()?
+            .iter()
+            .map(|a| ((a[0], a[1]), (a[2], a[3])))
+            .collect();
+        println!("{}", day4::solve(v.clone()));
+        println!("{}", day4::more(v));
     }
 
     Ok(())
