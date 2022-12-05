@@ -1,4 +1,5 @@
 use std::error::Error;
+use std::fmt::{Display, Formatter};
 use std::fs::File;
 use std::io::Read;
 
@@ -6,6 +7,18 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
+
+#[derive(Debug, Copy, Clone, Ord, PartialOrd, Eq, PartialEq)]
+struct Oopsie;
+
+impl Display for Oopsie {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "oopsie")
+    }
+}
+
+impl Error for Oopsie {}
 
 fn main() -> Result<(), Box<dyn Error>> {
     {
@@ -68,6 +81,22 @@ fn main() -> Result<(), Box<dyn Error>> {
             .collect();
         println!("{}", day4::solve(v.clone()));
         println!("{}", day4::more(v));
+    }
+
+    {
+        println!("day5");
+        let mut s = String::new();
+        File::open("input/day5/input.txt")?.read_to_string(&mut s)?;
+        let mv = s
+            .split('\n')
+            .map(|a| a.parse())
+            .collect::<Result<Vec<day5::Move>, _>>()?;
+        let mut stacks = day5::Stacks::stacks();
+        stacks.process(&mv).ok_or(Oopsie)?;
+        println!("{}", stacks.message().ok_or(Oopsie)?);
+        let mut stacks = day5::Stacks::stacks();
+        stacks.process1(&mv).ok_or(Oopsie)?;
+        println!("{}", stacks.message().ok_or(Oopsie)?);
     }
 
     Ok(())
