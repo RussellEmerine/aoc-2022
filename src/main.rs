@@ -8,6 +8,7 @@ mod day2;
 mod day3;
 mod day4;
 mod day5;
+mod day6;
 
 #[derive(Debug, Copy, Clone, Ord, PartialOrd, Eq, PartialEq)]
 struct Oopsie;
@@ -97,6 +98,14 @@ fn main() -> Result<(), Box<dyn Error>> {
         let mut stacks = day5::Stacks::stacks();
         stacks.process1(&mv).ok_or(Oopsie)?;
         println!("{}", stacks.message().ok_or(Oopsie)?);
+    }
+
+    {
+        println!("day6");
+        let mut s = String::new();
+        File::open("input/day6/input.txt")?.read_to_string(&mut s)?;
+        println!("{}", day6::marker::<4>(&s).ok_or(Oopsie)?);
+        println!("{}", day6::marker::<14>(&s).ok_or(Oopsie)?);
     }
 
     Ok(())
