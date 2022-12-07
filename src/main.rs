@@ -9,6 +9,7 @@ mod day3;
 mod day4;
 mod day5;
 mod day6;
+mod day7;
 
 #[derive(Debug, Copy, Clone, Ord, PartialOrd, Eq, PartialEq)]
 struct Oopsie;
@@ -106,6 +107,14 @@ fn main() -> Result<(), Box<dyn Error>> {
         File::open("input/day6/input.txt")?.read_to_string(&mut s)?;
         println!("{}", day6::marker::<4>(&s).ok_or(Oopsie)?);
         println!("{}", day6::marker::<14>(&s).ok_or(Oopsie)?);
+    }
+
+    {
+        println!("day7");
+        let mut s = String::new();
+        File::open("input/day7/input.txt")?.read_to_string(&mut s)?;
+        println!("{}", day7::solve(&s).ok_or(Oopsie)?);
+        println!("{}", day7::more(&s).ok_or(Oopsie)?);
     }
 
     Ok(())
