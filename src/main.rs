@@ -5,6 +5,7 @@ use std::io::Read;
 use std::num::ParseIntError;
 
 mod day1;
+mod day10;
 mod day2;
 mod day3;
 mod day4;
@@ -15,7 +16,7 @@ mod day8;
 mod day9;
 
 #[derive(Debug, Copy, Clone, Ord, PartialOrd, Eq, PartialEq)]
-struct Oopsie;
+pub struct Oopsie;
 
 impl Display for Oopsie {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -150,6 +151,19 @@ fn main() -> Result<(), Box<dyn Error>> {
             .collect::<Result<Vec<(char, usize)>, _>>()?;
         println!("{}", day9::solve(v.clone()));
         println!("{}", day9::more(v));
+    }
+
+    {
+        println!("day10");
+        let mut s = String::new();
+        File::open("input/day10/input.txt")?.read_to_string(&mut s)?;
+        let v = s
+            .trim()
+            .split('\n')
+            .map(|line| line.parse())
+            .collect::<Result<Vec<day10::Instruction>, _>>()?;
+        println!("{}", day10::solve(v.clone()));
+        println!("{}", day10::more(v));
     }
 
     Ok(())
