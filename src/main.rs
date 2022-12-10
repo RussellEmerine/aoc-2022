@@ -2,6 +2,7 @@ use std::error::Error;
 use std::fmt::{Display, Formatter};
 use std::fs::File;
 use std::io::Read;
+use std::num::ParseIntError;
 
 mod day1;
 mod day2;
@@ -10,6 +11,8 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
+mod day9;
 
 #[derive(Debug, Copy, Clone, Ord, PartialOrd, Eq, PartialEq)]
 struct Oopsie;
@@ -115,6 +118,38 @@ fn main() -> Result<(), Box<dyn Error>> {
         File::open("input/day7/input.txt")?.read_to_string(&mut s)?;
         println!("{}", day7::solve(&s).ok_or(Oopsie)?);
         println!("{}", day7::more(&s).ok_or(Oopsie)?);
+    }
+
+    {
+        println!("day8");
+        let mut s = String::new();
+        File::open("input/day8/input.txt")?.read_to_string(&mut s)?;
+        let v = s
+            .split_whitespace()
+            .map(|a| {
+                a.chars()
+                    .map(|c| c.to_string().parse())
+                    .collect::<Result<Vec<usize>, _>>()
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+        println!("{}", day8::count_visible(v.clone()));
+        println!("{}", day8::score(v));
+    }
+
+    {
+        println!("day9");
+        let mut s = String::new();
+        File::open("input/day9/input.txt")?.read_to_string(&mut s)?;
+        let v = s
+            .trim()
+            .split('\n')
+            .map(|a| a.trim().split_whitespace().collect::<Vec<_>>())
+            .map(|a| {
+                Ok::<(char, usize), ParseIntError>((a[0].chars().next().unwrap(), a[1].parse()?))
+            })
+            .collect::<Result<Vec<(char, usize)>, _>>()?;
+        println!("{}", day9::solve(v.clone()));
+        println!("{}", day9::more(v));
     }
 
     Ok(())
