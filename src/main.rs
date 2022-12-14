@@ -6,6 +6,8 @@ use std::num::ParseIntError;
 
 mod day1;
 mod day10;
+mod day11;
+mod day12;
 mod day2;
 mod day3;
 mod day4;
@@ -164,6 +166,52 @@ fn main() -> Result<(), Box<dyn Error>> {
             .collect::<Result<Vec<day10::Instruction>, _>>()?;
         println!("{}", day10::solve(v.clone()));
         println!("{}", day10::more(v));
+    }
+
+    {
+        println!("day11");
+        let mut monkeys = day11::Monkeys::input();
+        for _ in 0..20 {
+            monkeys.round(3);
+        }
+        println!("{}", monkeys.monkey_business());
+        let mut monkeys = day11::Monkeys::input();
+        for _ in 0..10_000 {
+            monkeys.round(1);
+        }
+        println!("{}", monkeys.monkey_business());
+    }
+
+    {
+        println!("day12");
+        let mut s = String::new();
+        File::open("input/day12/input.txt")?.read_to_string(&mut s)?;
+        let v: Vec<_> = s.trim().split('\n').collect();
+        let mut s = (0, 0);
+        let mut e = (0, 0);
+        for (i, line) in v.iter().enumerate() {
+            for (j, c) in line.chars().enumerate() {
+                match c {
+                    'S' => s = (i, j),
+                    'E' => e = (i, j),
+                    _ => {}
+                }
+            }
+        }
+        let v = v
+            .iter()
+            .map(|line| {
+                line.chars()
+                    .map(|c| match c {
+                        'S' => 0,
+                        'E' => 25,
+                        _ => c as usize - 'a' as usize,
+                    })
+                    .collect::<Vec<_>>()
+            })
+            .collect::<Vec<_>>();
+        println!("{}", day12::solve(&v, s, e));
+        println!("{}", day12::more(&v, e));
     }
 
     Ok(())
