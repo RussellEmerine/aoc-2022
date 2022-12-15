@@ -8,6 +8,8 @@ mod day1;
 mod day10;
 mod day11;
 mod day12;
+mod day14;
+mod day15;
 mod day2;
 mod day3;
 mod day4;
@@ -212,6 +214,42 @@ fn main() -> Result<(), Box<dyn Error>> {
             .collect::<Vec<_>>();
         println!("{}", day12::solve(&v, s, e));
         println!("{}", day12::more(&v, e));
+    }
+
+    {
+        println!("day14");
+        let mut s = String::new();
+        File::open("input/day14/input.txt")?.read_to_string(&mut s)?;
+        let v = s
+            .trim()
+            .split('\n')
+            .map(|line| {
+                line.split(" -> ")
+                    .map(|pair| {
+                        pair.split_once(',')
+                            .and_then(|(x, y)| Some((x.parse().ok()?, y.parse().ok()?)))
+                    })
+                    .collect::<Option<Vec<(usize, usize)>>>()
+            })
+            .collect::<Option<Vec<_>>>()
+            .ok_or(Oopsie)?;
+        println!("{}", day14::solve(v.clone()));
+        println!("{}", day14::more(v));
+    }
+
+    {
+        println!("day15");
+        let mut s = String::new();
+        File::open("input/day15/input.txt")?.read_to_string(&mut s)?;
+        let v: Vec<(i64, i64, i64, i64)> = s
+            .split_whitespace()
+            .map(|a| a.parse())
+            .collect::<Result<Vec<_>, _>>()?
+            .chunks_exact(4)
+            .map(|a| (a[0], a[1], a[2], a[3]))
+            .collect();
+        println!("{}", day15::solve(v.clone(), 2000000));
+        println!("{}", day15::more(v, 4000000));
     }
 
     Ok(())
