@@ -41,6 +41,7 @@ pub fn solve(v: Vec<(i64, i64, i64, i64)>, y: i64) -> usize {
         .sum()
 }
 
+#[allow(dead_code)]
 pub fn more(v: Vec<(i64, i64, i64, i64)>, bound: i64) -> i64 {
     for y in 0..=bound {
         let mut bounds: Vec<_> = v

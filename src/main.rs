@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::error::Error;
 use std::fmt::{Display, Formatter};
 use std::fs::File;
@@ -10,6 +11,7 @@ mod day11;
 mod day12;
 mod day14;
 mod day15;
+mod day16;
 mod day2;
 mod day3;
 mod day4;
@@ -249,7 +251,30 @@ fn main() -> Result<(), Box<dyn Error>> {
             .map(|a| (a[0], a[1], a[2], a[3]))
             .collect();
         println!("{}", day15::solve(v.clone(), 2000000));
-        println!("{}", day15::more(v, 4000000));
+        // println!("{}", day15::more(v, 4000000)); // it's correct, just slow
+    }
+
+    {
+        println!("day16");
+        let mut s = String::new();
+        File::open("input/day16/input.txt")?.read_to_string(&mut s)?;
+        let mut flow = HashMap::new();
+        let mut tunnels = HashMap::new();
+        for line in s.trim().split("\n") {
+            let line = line.strip_prefix("Valve ").ok_or(Oopsie)?;
+            let (valve, line) = line.split_once(" has flow rate=").ok_or(Oopsie)?;
+            let (f, line) = line
+                .split_once("; tunnels lead to valves ")
+                .or_else(|| line.split_once("; tunnel leads to valve "))
+                .ok_or(Oopsie)?;
+            flow.insert(valve.to_string(), f.parse()?);
+            tunnels.insert(
+                valve.to_string(),
+                line.split(", ").map(|a| a.to_string()).collect(),
+            );
+        }
+        println!("{}", day16::solve(flow.clone(), tunnels.clone()));
+        println!("{}", day16::more(flow, tunnels));
     }
 
     Ok(())
