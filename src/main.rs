@@ -12,6 +12,7 @@ mod day12;
 mod day14;
 mod day15;
 mod day16;
+mod day17;
 mod day2;
 mod day3;
 mod day4;
@@ -20,6 +21,15 @@ mod day6;
 mod day7;
 mod day8;
 mod day9;
+
+macro_rules! slow {
+    ($expr: expr) => {
+        #[cfg(feature = "slow")]
+        println!("{}", $expr);
+        #[cfg(not(feature = "slow"))]
+        println!("[skipped]");
+    };
+}
 
 #[derive(Debug, Copy, Clone, Ord, PartialOrd, Eq, PartialEq)]
 pub struct Oopsie;
@@ -251,9 +261,11 @@ fn main() -> Result<(), Box<dyn Error>> {
             .map(|a| (a[0], a[1], a[2], a[3]))
             .collect();
         println!("{}", day15::solve(v.clone(), 2000000));
-        // println!("{}", day15::more(v, 4000000)); // it's correct, just slow
+        slow!(day15::more(v, 4000000));
     }
 
+    // lol skip
+    #[cfg(feature = "slow")]
     {
         println!("day16");
         let mut s = String::new();
@@ -273,8 +285,19 @@ fn main() -> Result<(), Box<dyn Error>> {
                 line.split(", ").map(|a| a.to_string()).collect(),
             );
         }
+        // both of these are slow :cry:
         println!("{}", day16::solve(flow.clone(), tunnels.clone()));
         println!("{}", day16::more(flow, tunnels));
+    }
+    #[cfg(not(feature = "slow"))]
+    {
+        println!("day16");
+        println!("[skipped]");
+        println!("[skipped]");
+    }
+
+    {
+        println!("day17");
     }
 
     Ok(())
