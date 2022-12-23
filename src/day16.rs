@@ -1,3 +1,4 @@
+#![cfg(feature = "slow")]
 use std::collections::{HashMap, HashSet};
 
 #[derive(Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Hash, Debug)]

@@ -1,3 +1,4 @@
+#[cfg(feature = "slow")]
 use std::collections::HashMap;
 use std::error::Error;
 use std::fmt::{Display, Formatter};
@@ -298,6 +299,9 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     {
         println!("day17");
+        let mut s = String::new();
+        File::open("input/day17/input.txt")?.read_to_string(&mut s)?;
+        println!("{}", day17::solve(s.trim()));
     }
 
     Ok(())
