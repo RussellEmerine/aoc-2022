@@ -14,6 +14,7 @@ mod day14;
 mod day15;
 mod day16;
 mod day17;
+mod day18;
 mod day2;
 mod day3;
 mod day4;
@@ -302,6 +303,22 @@ fn main() -> Result<(), Box<dyn Error>> {
         let mut s = String::new();
         File::open("input/day17/input.txt")?.read_to_string(&mut s)?;
         println!("{}", day17::solve(s.trim()));
+        println!("[unsolved]");
+    }
+
+    {
+        println!("day18");
+        let mut s = String::new();
+        File::open("input/day18/input.txt")?.read_to_string(&mut s)?;
+        let cubes: Vec<_> = s
+            .split('\n')
+            .map(|line| {
+                let cube: Vec<_> = line.split(',').map(|a| a.parse().unwrap()).collect();
+                (cube[0], cube[1], cube[2])
+            })
+            .collect();
+        println!("{}", day18::solve(&cubes));
+        println!("{}", day18::more(&cubes));
     }
 
     Ok(())
