@@ -17,6 +17,7 @@ mod day17;
 mod day18;
 mod day2;
 mod day20;
+mod day21;
 mod day3;
 mod day4;
 mod day5;
@@ -338,6 +339,21 @@ fn main() -> Result<(), Box<dyn Error>> {
             .collect::<Result<Vec<_>, _>>()?;
         println!("{}", day20::solve(&f));
         println!("{}", day20::more(&f));
+    }
+
+    {
+        println!("day21");
+        let mut s = String::new();
+        File::open("input/day21/input.txt")?.read_to_string(&mut s)?;
+        let monkeys = s
+            .split('\n')
+            .map(|line| {
+                let (name, yell) = line.split_once(": ").unwrap();
+                (name.to_string(), yell.parse().unwrap())
+            })
+            .collect();
+        println!("{}", day21::solve(&monkeys));
+        println!("{}", day21::more(&monkeys));
     }
 
     Ok(())
